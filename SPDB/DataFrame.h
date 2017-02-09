@@ -3,8 +3,8 @@
 #include <vector>
 #include "DataType.h"
 #include <string>
-#include<vector>
-#include<unordered_map>
+#include <vector>
+#include <unordered_map>
 
 /*
 	DataFrame实现了对带有索引的矩阵的基本操作，是DBTable的矩阵部分功能的抽象
@@ -23,87 +23,97 @@
 //包含了列名、列数据类型等信息
 class Index {
 private:
-	std::vector<std::string> indices;
-	//TODO：添加成员
+    std::vector<std::string> indices;
+    //TODO：添加成员
+    std::vector<DBData::DBDataType> types;
+
 public:
-	//TODO:添加成员
+    //TODO:添加成员
+    Index();
+
+    void add(std::string &name, DBData::DBDataType type);
+
+    bool empty() const { return indices.empty(); }
+    int size() const { return indices.size(); }
+
+    std::string operator[](int i) const;
 };
 
 
 /**********数据行*************/
 class DataRow {
 private:
-	Index index;
-	//TODO:添加成员变量
+    Index index;
+    //TODO:添加成员变量
 public:
-	DBData& operator[](std::string col);
-	//TODO:添加成员函数
+    DBData& operator[](std::string col);
+    //TODO:添加成员函数
 };
 
 
 /*********数据列************/
 class DataColumn {
 private:
-	std::string name;
-	std::vector<DBData*> data;
+    std::string name;
+    std::vector<DBData*> data;
 
 public:
-	DataColumn(std::string name, std::vector<DBData> data);
-	std::string getName();
-	std::vector<DBData*>& getData();
-	DBData& operator[](int);
-	//TODO:添加成员函数
+    DataColumn(std::string name, std::vector<DBData> data);
+    std::string getName();
+    std::vector<DBData*>& getData();
+    DBData& operator[](int);
+    //TODO:添加成员函数
 };
 
 
 /***************数据矩阵*************/
 class DataFrame {
 private:
-	//索引
-	Index index;
+    //索引
+    Index index;
 
-	//数据列
-	std::unordered_map<std::string, DataColumn> columns;
+    //数据列
+    std::unordered_map<std::string, DataColumn> columns;
 
-	//TODO:添加成员变量
+    //TODO:添加成员变量
 public:
-	//将函数应用到每一行并不返回值
-	void apply(void func(DataRow));
+    //将函数应用到每一行并不返回值
+    void apply(void func(DataRow));
 
-	//将函数应用到每一行并返回一个数据列，每行的值为参数函数的返回值
-	template<typename T>
-	DataColumn applyWithRet(T func(DataRow));
-	//TODO:添加成员函数
+    //将函数应用到每一行并返回一个数据列，每行的值为参数函数的返回值
+    template<typename T>
+        DataColumn applyWithRet(T func(DataRow));
+    //TODO:添加成员函数
 
-	//设置索引
-	void setIndex(Index& index);
-	Index& getIndex();
+    //设置索引
+    void setIndex(Index& index);
+    Index& getIndex();
 
-	//获取列(可以用来添加列)
-	DataColumn& operator[](std::string name);
+    //获取列(可以用来添加列)
+    DataColumn& operator[](std::string name);
 
-	//获取行
-	DataRow operator[](int rownum);
+    //获取行
+    DataRow operator[](int rownum);
 
-	//获取子数据帧
-	DataFrame operator[](std::string names[]);
-	DataFrame operator[](int rows[]);
-	DataFrame operator[](std::pair<int, int> slice_range);
+    //获取子数据帧
+    DataFrame operator[](std::string names[]);
+    DataFrame operator[](int rows[]);
+    DataFrame operator[](std::pair<int, int> slice_range);
 
-	//删除列
-	DataFrame drop(std::string[]);
+    //删除列
+    DataFrame drop(std::string[]);
 
-	/**************OPTIONAL***********/
-	/*
-		实现对key的迭代 
-		eg 对每列第一个值加一：
-			for (auto key : df)
-				df[key][0]++;
+    /**************OPTIONAL***********/
+    /*
+       实现对key的迭代
+       eg 对每列第一个值加一：
+       for (auto key : df)
+       df[key][0]++;
 
-		ref：http://blog.csdn.net/is2120/article/details/30238945
-	*/
+       ref：http://blog.csdn.net/is2120/article/details/30238945
+       */
 
 
-	//TODO:添加成员函数
+    //TODO:添加成员函数
 };
 
