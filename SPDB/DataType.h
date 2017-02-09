@@ -1,23 +1,26 @@
 #pragma once
 
 #include "Mess.h"
-#include<vector>
+#include <vector>
 
 
 /*
-	为了保证数据库操作的一致性，通过继承DBData类封装基本数据结构，实现基本数据类型的表示和转化
+	为了保证数据库操作的一致性，通过继承DBData类封装基本数据结构，
+    实现基本数据类型的表示和转化
 */
 
 
 class DBData {
 public:
 	//Data Type
-	enum DBDataType { DB_INTEGER, DB_DOUBLE, DB_CHAR, DB_DATETIME /*, DB_DECIMAL*/ };
+	enum DBDataType
+        { DB_INTEGER, DB_DOUBLE DB_CHAR, DB_DATETIME /*, DB_DECIMAL*/ };
 
 	//从Bytes类创建DBData类型变量
 	static DBData* createFromBytes(Bytes, DBDataType);
-	static std::vector<DBData*> createFromBytesList(std::vector<Bytes>&, DBDataType);
-	
+	static std::vector<DBData*>
+        createFromBytesList(std::vector<Bytes>&, DBDataType);
+
 public:
 	//Constructor
 	DBData(Bytes) {};
@@ -35,7 +38,8 @@ public:
 /*
 	完成下面数据库数据类型的实现：
 		1.实现父类的虚函数
-		2.添加转换成C++基本类型int、string等类型的函数getValue()（日期可以自己实现一个DateTime类，也可以用Unix时间戳）
+		2.添加转换成C++基本类型int、string等类型的函数getValue()
+        （日期可以自己实现一个DateTime类，也可以用Unix时间戳）
 		3.添加其他需要的变量和函数
 */
 
