@@ -54,12 +54,12 @@ public:
 /*********数据列************/
 class DataColumn {
 private:
-    std::string name;
-    std::vector<DBData*> data;
+    std::string name_;
+    std::vector<DBData*> data_;
 
 public:
 	DataColumn(std::string name, std::vector<DBData> data);
-	std::string getName();
+	std::string getName() const;
 	std::vector<DBData*>& getData();
 	DBData& operator[](int);
 	//TODO:添加成员函数
