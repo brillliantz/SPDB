@@ -7,28 +7,28 @@
 #include <unordered_map>
 
 /*
-	DataFrameÊµÏÖÁË¶Ô´øÓĞË÷ÒıµÄ¾ØÕóµÄ»ù±¾²Ù×÷£¬ÊÇDBTableµÄ¾ØÕó²¿·Ö¹¦ÄÜµÄ³éÏó
-	DataRowÔòÊÇ¶ÔDBEntryµÄSeries¹¦ÄÜ³éÏó
-	DataColumnÊÇDataFrameµÄ»ù±¾×é³Éµ¥Î»£¬´æ´¢ÁËÓĞÃûµÄÒ»ÁĞÊı¾İ
+	DataFrameå®ç°äº†å¯¹å¸¦æœ‰ç´¢å¼•çš„çŸ©é˜µçš„åŸºæœ¬æ“ä½œï¼Œæ˜¯DBTableçš„çŸ©é˜µéƒ¨åˆ†åŠŸèƒ½çš„æŠ½è±¡
+	DataRowåˆ™æ˜¯å¯¹DBEntryçš„SeriesåŠŸèƒ½æŠ½è±¡
+	DataColumnæ˜¯DataFrameçš„åŸºæœ¬ç»„æˆå•ä½ï¼Œå­˜å‚¨äº†æœ‰åçš„ä¸€åˆ—æ•°æ®
 
-	Èç¹ûÓĞ²»Ã÷°×µÄµØ·½£¬ÏëÏëpandasÀïÊÇÔõÃ´×öµÄ
+	å¦‚æœæœ‰ä¸æ˜ç™½çš„åœ°æ–¹ï¼Œæƒ³æƒ³pandasé‡Œæ˜¯æ€ä¹ˆåšçš„
 	Note:
-		½¨Òé²»ÒªÔÚÎö¹¹º¯ÊıÀïÉ¾µôData£¬·ñÔòÃ¿´ÎÉú³ÉĞÂµÄDataFrameĞèÒªÖØĞÂ¸´ÖÆËùÓĞ
-		µÄData£¬Í¨¹ı´ÓÔ´Í·ÉÏÍ³Ò»¿ØÖÆDataµÄÉú³ÉºÍÉ¾³ı£¨±ÈÈçÔÚ±¾ÊµÑéÖĞ¿ÉÒÔÔÚÕû¸öTable±»
-		´ÓÄÚ´æÖĞÉ¾³ıÊ±É¾³ıData£©À´¼õĞ¡¸´ÖÆµÄ¿ªÏúºÍÊµÏÖºÜ¶à¿½±´¹¹Ôìº¯Êı¡¢ÒÆ¶¯¸³Öµº¯ÊıµÈ
-		µÄ³É±¾
+		å»ºè®®ä¸è¦åœ¨ææ„å‡½æ•°é‡Œåˆ æ‰Dataï¼Œå¦åˆ™æ¯æ¬¡ç”Ÿæˆæ–°çš„DataFrameéœ€è¦é‡æ–°å¤åˆ¶æ‰€æœ‰
+		çš„Dataï¼Œé€šè¿‡ä»æºå¤´ä¸Šç»Ÿä¸€æ§åˆ¶Dataçš„ç”Ÿæˆå’Œåˆ é™¤ï¼ˆæ¯”å¦‚åœ¨æœ¬å®éªŒä¸­å¯ä»¥åœ¨æ•´ä¸ªTableè¢«
+		ä»å†…å­˜ä¸­åˆ é™¤æ—¶åˆ é™¤Dataï¼‰æ¥å‡å°å¤åˆ¶çš„å¼€é”€å’Œå®ç°å¾ˆå¤šæ‹·è´æ„é€ å‡½æ•°ã€ç§»åŠ¨èµ‹å€¼å‡½æ•°ç­‰
+		çš„æˆæœ¬
 */
 
-/***********DataFrameË÷Òı********/
-//°üº¬ÁËÁĞÃû¡¢ÁĞÊı¾İÀàĞÍµÈĞÅÏ¢
+/***********DataFrameç´¢å¼•********/
+//åŒ…å«äº†åˆ—åã€åˆ—æ•°æ®ç±»å‹ç­‰ä¿¡æ¯
 class Index {
 private:
-    std::vector<std::string> indices;
-    //TODO£ºÌí¼Ó³ÉÔ±
+	std::vector<std::string> indices;
+	//TODOï¼šæ·»åŠ æˆå‘˜
     std::vector<DBData::DBDataType> types;
 
 public:
-    //TODO:Ìí¼Ó³ÉÔ±
+	//TODO:æ·»åŠ æˆå‘˜
     Index();
 
     void add(std::string &name, DBData::DBDataType type);
@@ -40,80 +40,80 @@ public:
 };
 
 
-/**********Êı¾İĞĞ*************/
+/**********æ•°æ®è¡Œ*************/
 class DataRow {
 private:
-    Index index;
-    //TODO:Ìí¼Ó³ÉÔ±±äÁ¿
+	Index index;
+	//TODO:æ·»åŠ æˆå‘˜å˜é‡
 public:
-    DBData& operator[](std::string col);
-    //TODO:Ìí¼Ó³ÉÔ±º¯Êı
+	DBData& operator[](std::string col);
+	//TODO:æ·»åŠ æˆå‘˜å‡½æ•°
 };
 
 
-/*********Êı¾İÁĞ************/
+/*********æ•°æ®åˆ—************/
 class DataColumn {
 private:
     std::string name;
     std::vector<DBData*> data;
 
 public:
-    DataColumn(std::string name, std::vector<DBData> data);
-    std::string getName();
-    std::vector<DBData*>& getData();
-    DBData& operator[](int);
-    //TODO:Ìí¼Ó³ÉÔ±º¯Êı
+	DataColumn(std::string name, std::vector<DBData> data);
+	std::string getName();
+	std::vector<DBData*>& getData();
+	DBData& operator[](int);
+	//TODO:æ·»åŠ æˆå‘˜å‡½æ•°
 };
 
 
-/***************Êı¾İ¾ØÕó*************/
+/***************æ•°æ®çŸ©é˜µ*************/
 class DataFrame {
 private:
-    //Ë÷Òı
-    Index index;
+	//ç´¢å¼•
+	Index index;
 
-    //Êı¾İÁĞ
-    std::unordered_map<std::string, DataColumn> columns;
+	//æ•°æ®åˆ—
+	std::unordered_map<std::string, DataColumn> columns;
 
-    //TODO:Ìí¼Ó³ÉÔ±±äÁ¿
+	//TODO:æ·»åŠ æˆå‘˜å˜é‡
 public:
-    //½«º¯ÊıÓ¦ÓÃµ½Ã¿Ò»ĞĞ²¢²»·µ»ØÖµ
-    void apply(void func(DataRow));
+	//å°†å‡½æ•°åº”ç”¨åˆ°æ¯ä¸€è¡Œå¹¶ä¸è¿”å›å€¼
+	void apply(void func(DataRow));
 
-    //½«º¯ÊıÓ¦ÓÃµ½Ã¿Ò»ĞĞ²¢·µ»ØÒ»¸öÊı¾İÁĞ£¬Ã¿ĞĞµÄÖµÎª²ÎÊıº¯ÊıµÄ·µ»ØÖµ
-    template<typename T>
-        DataColumn applyWithRet(T func(DataRow));
-    //TODO:Ìí¼Ó³ÉÔ±º¯Êı
+	//å°†å‡½æ•°åº”ç”¨åˆ°æ¯ä¸€è¡Œå¹¶è¿”å›ä¸€ä¸ªæ•°æ®åˆ—ï¼Œæ¯è¡Œçš„å€¼ä¸ºå‚æ•°å‡½æ•°çš„è¿”å›å€¼
+	template<typename T>
+	DataColumn applyWithRet(T func(DataRow));
+	//TODO:æ·»åŠ æˆå‘˜å‡½æ•°
 
-    //ÉèÖÃË÷Òı
-    void setIndex(Index& index);
-    Index& getIndex();
+	//è®¾ç½®ç´¢å¼•
+	void setIndex(Index& index);
+	Index& getIndex();
 
-    //»ñÈ¡ÁĞ(¿ÉÒÔÓÃÀ´Ìí¼ÓÁĞ)
-    DataColumn& operator[](std::string name);
+	//è·å–åˆ—(å¯ä»¥ç”¨æ¥æ·»åŠ åˆ—)
+	DataColumn& operator[](std::string name);
 
-    //»ñÈ¡ĞĞ
-    DataRow operator[](int rownum);
+	//è·å–è¡Œ
+	DataRow operator[](int rownum);
 
-    //»ñÈ¡×ÓÊı¾İÖ¡
-    DataFrame operator[](std::string names[]);
-    DataFrame operator[](int rows[]);
-    DataFrame operator[](std::pair<int, int> slice_range);
+	//è·å–å­æ•°æ®å¸§
+	DataFrame operator[](std::string names[]);
+	DataFrame operator[](int rows[]);
+	DataFrame operator[](std::pair<int, int> slice_range);
 
-    //É¾³ıÁĞ
-    DataFrame drop(std::string[]);
+	//åˆ é™¤åˆ—
+	DataFrame drop(std::string[]);
 
-    /**************OPTIONAL***********/
-    /*
-       ÊµÏÖ¶ÔkeyµÄµü´ú
-       eg ¶ÔÃ¿ÁĞµÚÒ»¸öÖµ¼ÓÒ»£º
-       for (auto key : df)
-       df[key][0]++;
+	/**************OPTIONAL***********/
+	/*
+		å®ç°å¯¹keyçš„è¿­ä»£
+		eg å¯¹æ¯åˆ—ç¬¬ä¸€ä¸ªå€¼åŠ ä¸€ï¼š
+			for (auto key : df)
+				df[key][0]++;
 
-       ref£ºhttp://blog.csdn.net/is2120/article/details/30238945
-       */
+		refï¼šhttp://blog.csdn.net/is2120/article/details/30238945
+	*/
 
 
-    //TODO:Ìí¼Ó³ÉÔ±º¯Êı
+	//TODO:æ·»åŠ æˆå‘˜å‡½æ•°
 };
 
