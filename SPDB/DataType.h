@@ -10,6 +10,7 @@
 
 
 class DBData {
+//TODO need a NAN data type.
 public:
 	//Data Type
 	enum DBDataType

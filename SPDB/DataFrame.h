@@ -21,20 +21,20 @@
 
 /***********DataFrame索引********/
 //包含了列名、列数据类型等信息
-class Index {
+class DBIndex {
 private:
-	std::vector<std::string> indices;
+	std::vector<std::string> indices_;
 	//TODO：添加成员
-    std::vector<DBData::DBDataType> types;
+    std::vector<DBData::DBDataType> types_;
 
 public:
 	//TODO:添加成员
-    Index();
+    DBIndex();
 
     void add(std::string &name, DBData::DBDataType type);
 
-    bool empty() const { return indices.empty(); }
-    int size() const { return indices.size(); }
+    bool empty() const { return indices_.empty(); }
+    int size() const { return indices_.size(); }
 
     std::string operator[](int i) const;
 };
@@ -43,11 +43,16 @@ public:
 /**********数据行*************/
 class DataRow {
 private:
-	Index index;
+	DBIndex index_;
 	//TODO:添加成员变量
+    DBData primary_key_;
+    std::unordered_map<std::string, &DataColumn> columns_;
 public:
-	DBData& operator[](std::string col);
+	DBData& operator[](std::string col) const;
 	//TODO:添加成员函数
+    DBIndex &getIndex() const { return index_; }
+    DataColumn &getColumn(std::string col) const { return columns_[col]; }
+    DBData &getKey() const { return primary_key_; }
 };
 
 
@@ -56,13 +61,15 @@ class DataColumn {
 private:
     std::string name_;
     std::vector<DBData*> data_;
+    bool is_primary_;
 
 public:
 	DataColumn(std::string name, std::vector<DBData> data);
-	std::string getName() const;
-	std::vector<DBData*>& getData();
-	DBData& operator[](int);
+	std::string getName() const { return name_; };
+	std::vector<DBData*>& getData() const { return data_; };
+	DBData& operator[](int i) const;
 	//TODO:添加成员函数
+    DBData& DataColumn::operator[](const DBData &primary_key) const;
 };
 
 
@@ -70,7 +77,7 @@ public:
 class DataFrame {
 private:
 	//索引
-	Index index;
+	DBIndex index;
 
 	//数据列
 	std::unordered_map<std::string, DataColumn> columns;
@@ -86,8 +93,8 @@ public:
 	//TODO:添加成员函数
 
 	//设置索引
-	void setIndex(Index& index);
-	Index& getIndex();
+	void setIndex(DBIndex& index);
+	DBIndex& getIndex();
 
 	//获取列(可以用来添加列)
 	DataColumn& operator[](std::string name);

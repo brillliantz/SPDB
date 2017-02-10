@@ -68,7 +68,7 @@ public:
 	*/
 	//获取一个空页，若文件系统里没有空闲页，则增加文件长度以获取新页
 	Page* getNewPage();
-	
+
 	//将一个页写入文件
 	void writePage(Page&);
 	//将所有页写回文件
@@ -90,7 +90,7 @@ public:
 	//在数据库文件中删除该表
 	void deleteTable(Table&);
 	//为了简单起见，alertTable只实现列的增、删操作，按照index的内容修改Table
-	void alterTable(Table& origin, Index& index);
+	void alterTable(Table& origin, DBIndex& index);
 
 
 	/*
