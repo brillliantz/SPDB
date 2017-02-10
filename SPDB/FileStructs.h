@@ -47,13 +47,14 @@
 
 
 /************索引结构****************
-
-  ____  TableDescriptor                       _______  FieldDescriptor             _______ FieldContent
-  /                                                         /                                                       /
-  Schema____/______ TableDescriptor   _______/_________ FieldDescriptor____/_____ FieldContent
-  \                                                           \                                                     \
-  \ ......                                                     \ ......                                               \ ......
-  */
+ *
+ *                _____ TableDescriptor         ______ FieldDescriptor      _____ FieldContent
+ *               /                             /                           /
+ *    Schema____/______ TableDescriptor_______/_______ FieldDescriptor____/______ FieldContent
+ *              \                             \                           \
+ *               \......                       \......                     \......
+ *
+ */
 
 
 //数据库头
