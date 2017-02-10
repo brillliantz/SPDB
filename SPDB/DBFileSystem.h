@@ -10,8 +10,8 @@
 ------------------------------------------------------------------------------|
 Schema                                 1024Byte                               |
 ------------------------------------------------------------------------------|
-数据库表描述符表               MAX_TD_NUM * sizeof(TableDescriptor)             |
-                             默认表数量最大值(MAX_TD_NUM)为1024                 |
+数据库表描述符表              MAX_TD_NUM * sizeof(TableDescriptor)            |
+                             默认表数量最大值(MAX_TD_NUM)为1024               |
 ------------------------------------------------------------------------------|
 PAGE1                                 PAGE_SIZE(4kb)                          |
 ------------------------------------------------------------------------------|
@@ -76,7 +76,7 @@ public:
     void writeAllPage();
 
     //加载一个页，并加入缓存
-    Page* loadPage(uint32_t offset);
+    Page* loadPage(std::uint32_t offset);
 
     //取消FileSystem对页的缓存，注意该操作后不能再使用该页，因为FileSystem随时可能回收该页的内存资源
     void decachePage(Page&);
@@ -91,7 +91,7 @@ public:
     //在数据库文件中删除该表
     void deleteTable(Table&);
     //为了简单起见，alertTable只实现列的增、删操作，按照index的内容修改Table
-    void alterTable(Table& origin, Index& index);
+    void alterTable(Table& origin, DBIndex& index);
 
 
     /*

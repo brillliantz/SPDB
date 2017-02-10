@@ -45,14 +45,14 @@ class DataRow {
 private:
     DBIndex index_;
     //TODO:添加成员变量
-    DBData primary_key_;
-    std::unordered_map<std::string, &DataColumn> columns_;
+    ////////DBData primary_key_;
+    ////////std::unordered_map<std::string, &DataColumn> columns_;
 public:
     DBData& operator[](std::string col) const;
     //TODO:添加成员函数
-    DBIndex &getIndex() const { return index_; }
-    DataColumn &getColumn(std::string col) const { return columns_[col]; }
-    DBData &getKey() const { return primary_key_; }
+    const DBIndex &getIndex() const { return index_; }
+    /////DataColumn &getColumn(std::string col) const { return columns_[col]; }
+    ////////const DBData &getKey() const { return primary_key_; }
 };
 
 
@@ -66,10 +66,10 @@ private:
 public:
     DataColumn(std::string name, std::vector<DBData> data);
     std::string getName() const { return name_; };
-    std::vector<DBData*>& getData() const { return data_; };
+    const std::vector<DBData*>& getData() const { return data_; };
     DBData& operator[](int i) const;
     //TODO:添加成员函数
-    DBData& DataColumn::operator[](const DBData &primary_key) const;
+    DBData& operator[](const DBData &primary_key) const;
 };
 
 
@@ -77,7 +77,7 @@ public:
 class DataFrame {
 private:
     //索引
-    Index index;
+    DBIndex index;
 
     //数据列
     std::unordered_map<std::string, DataColumn> columns;
@@ -93,8 +93,8 @@ public:
     //TODO:添加成员函数
 
     //设置索引
-    void setIndex(Index& index);
-    Index& getIndex();
+    void setIndex(DBIndex& index);
+    DBIndex& getIndex();
 
     //获取列(可以用来添加列)
     DataColumn& operator[](std::string name);
