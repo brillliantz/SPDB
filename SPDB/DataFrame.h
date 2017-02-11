@@ -32,11 +32,15 @@ public:
     DBIndex();
 
     void add(std::string &name, DBData::DBDataType type);
+    void add(std::string &&name, DBData::DBDataType type);
 
     bool empty() const { return indices_.empty(); }
-    int size() const { return indices_.size(); }
+    std::size_t size() const { return indices_.size(); }
 
-    std::string operator[](int i) const;
+    void show() const;
+
+    std::string operator[](int i) const;    //TODO Though DBIndex is ordered,
+                                            //     Columns in DataFrame is not.
 };
 
 
@@ -45,14 +49,12 @@ class DataRow {
 private:
     DBIndex index_;
     //TODO:添加成员变量
-    ////////DBData primary_key_;
-    ////////std::unordered_map<std::string, &DataColumn> columns_;
+    DBData* primary_key_;    //TODO where should I create this instance?
+
 public:
     DBData& operator[](std::string col) const;
     //TODO:添加成员函数
-    const DBIndex &getIndex() const { return index_; }
-    /////DataColumn &getColumn(std::string col) const { return columns_[col]; }
-    ////////const DBData &getKey() const { return primary_key_; }
+    const DBIndex& getIndex() const { return index_; }
 };
 
 
@@ -77,10 +79,10 @@ public:
 class DataFrame {
 private:
     //索引
-    DBIndex index;
+    DBIndex index_;
 
     //数据列
-    std::unordered_map<std::string, DataColumn> columns;
+    std::unordered_map<std::string, DataColumn> columns_;
 
     //TODO:添加成员变量
 public:
@@ -91,13 +93,14 @@ public:
     template<typename T>
     DataColumn applyWithRet(T func(DataRow));
     //TODO:添加成员函数
+    DataFrame();
 
     //设置索引
     void setIndex(DBIndex& index);
     DBIndex& getIndex();
 
     //获取列(可以用来添加列)
-    DataColumn& operator[](std::string name);
+    DataColumn& operator[](std::string col);
 
     //获取行
     DataRow operator[](int rownum);
@@ -112,13 +115,37 @@ public:
 
     /**************OPTIONAL***********/
     /*
-        实现对key的迭代
+        实现对key的迭代: implement begin, end
         eg 对每列第一个值加一：
             for (auto key : df)
                 df[key][0]++;
 
         ref：http://blog.csdn.net/is2120/article/details/30238945
     */
+    template <typename T>
+    class const_iterator {
+      public:
+        const_iterator();
+        const T &operator*();
+
+        const_iterator &operator++();
+
+        const_iterator &operator++(int);
+
+        const_iterator &operator--();
+
+        const_iterator &operator--(int);
+
+        bool operator==(const const_iterator &rhs);
+        bool operator!=(const const_iterator &rhs);
+
+      protected:
+        T *current;
+
+        T &retreve();
+
+        const_iterator(T *p);
+    };
 
 
     //TODO:添加成员函数
