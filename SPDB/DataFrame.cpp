@@ -9,6 +9,7 @@
 #include <vector>
 #include <unordered_map>
 #include <utility>
+#include <algorithm>
 #include <stdexcept>
 #include <iostream>
 
@@ -55,31 +56,30 @@ std::string DBIndex::operator[](int i) const {
 //DataRow implementation:
 DBData& DataRow::operator[](std::string col) const {
     //TODO how to from the DataColumn col find the index of this row.
-    //DataColumn &target_col = this.getColumn(col);
+    //DataColumn &target_col = this->getColumn(col);
     //return target_col[primary_key_];
 }
 
 //----------------------------------------
 //DataColumn implementation:
-DataColumn::DataColumn(std::string name, std::vector<DBData> data) :
-name_{name}, is_primary_{false} {
-    std::vector<DBData*> data_ {};
-    for (const auto& d : data) {
+DataColumn::DataColumn(std::string name, std::vector<DBData> data, bool is_primary) :
+name_{name}, is_primary_{is_primary}, size_{data.size()} {
+    std::vector<DBData*> data_;
+    for (auto& d : data) {
         data_.push_back(&d);
     }
 }
 
-DBData& DataColumn::operator[](int i) { return *(data_[i]); }
-DBData& DataColumn::operator[](const DBData &primary_key) const {
-    auto find_res = std::find_if(std::begin(this.indices), std::end(this.indices)
-            [](DBData *d) { return *d; });
-    int pos = find_res - std::begin(this.indices);
-    if (pos == this.indices.size()) {
+DBData& DataColumn::operator[](const DBData &primary_key) {
+    auto find_res = std::find_if(std::begin(this->data_), std::end(this->data_),
+            [&primary_key](DBData *d) { return *d == primary_key; });
+    int pos = find_res - std::begin(this->data_);
+    if (pos == this->data_.size()) {
         throw std::invalid_argument(
-                std::string("primary_key unfound in column ") + this.getName())
+                std::string("primary_key unfound in column ") + this->getName());
     }
     else {
-        return this[pos];
+        return *(data_[pos]);
     }
 }
 

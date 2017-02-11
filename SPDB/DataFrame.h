@@ -64,14 +64,17 @@ private:
     std::string name_;
     std::vector<DBData*> data_;
     bool is_primary_;
+    std::size_t size_;
 
 public:
-    DataColumn(std::string name, std::vector<DBData> data);
-    std::string getName() const { return name_; };
-    const std::vector<DBData*>& getData() const { return data_; };
-    DBData& operator[](int i) const;
+    DataColumn(std::string name, std::vector<DBData> data,
+               bool is_primary = false);
+    std::string getName() const { return name_; }
+    std::vector<DBData*>& getData() { return data_; }
+    DBData& operator[](int i) { return *(data_[i]); }
     //TODO:添加成员函数
-    DBData& operator[](const DBData &primary_key) const;
+    void rename(std::string new_name) { name_ = new_name; }
+    DBData& operator[](const DBData &primary_key);
 };
 
 

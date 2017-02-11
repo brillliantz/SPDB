@@ -1,7 +1,11 @@
 #pragma once
 
 //在此定义你要调用的测试函数
-#define _TEST_DEMO_
+//#define _TEST_DEMO_
+//#define _HEADER_TEST_
+//#define _INDEX_TEST_
+//#define _COLUMN_TEST_
+#define _BYTES_TEST_
 
 /*
     Debug用法：
